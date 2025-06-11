@@ -4,6 +4,8 @@ import requests
 import time
 import smtplib
 from email.message import EmailMessage
+import threading
+from http.server import BaseHTTPRequestHandler, HTTPServer
 
 load_dotenv()
 
@@ -59,8 +61,24 @@ def check_new_residences():
     except Exception as e:
         print(f"[❌] Erreur : {e}")
 
-if __name__ == "__main__":
+def run_script():
     print("🚀 Surveillance des résidences ARPEJ démarrée…")
     while True:
         check_new_residences()
         time.sleep(CHECK_INTERVAL)
+
+def run_dummy_server():
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"ARPEJ bot is running.")
+
+    server = HTTPServer(("0.0.0.0", int(os.environ.get("PORT", 10000))), Handler)
+    print(f"🌐 Faux serveur HTTP sur le port {server.server_port}")
+    server.serve_forever()
+
+if __name__ == "__main__":
+    threading.Thread(target=run_script, daemon=True).start()
+    run_dummy_server()
+
