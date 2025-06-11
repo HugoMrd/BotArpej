@@ -1,3 +1,4 @@
+import os
 import requests
 import time
 import smtplib
@@ -7,9 +8,9 @@ API_URL = "https://www.arpej.fr/wp-json/sn/residences?lang=fr&display=map&price_
 CHECK_INTERVAL = 300
 CITIES_TO_WATCH = {"Suresnes", "Vincennes", "Saint-Mandé", "Le Kremlin-Bicêtre", "Puteaux", "Courbevoie", "Paris"}
 
-EMAIL_ADDRESS = "arpejbot@gmail.com"
-EMAIL_PASSWORD = "dbgc zfnw vnvw bfzi"
-TO_ADDRESS = "hugo.mouraud@orange.fr"
+EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")
+EMAIL_PASSWORD = os.getenv("EMAIL_PASSWORD")
+TO_ADDRESS = os.getenv("TO_ADDRESS")
 
 seen_residences = set()
 
