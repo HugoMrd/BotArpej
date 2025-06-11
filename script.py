@@ -1,8 +1,11 @@
 import os
+from dotenv import load_dotenv
 import requests
 import time
 import smtplib
 from email.message import EmailMessage
+
+load_dotenv()
 
 API_URL = "https://www.arpej.fr/wp-json/sn/residences?lang=fr&display=map&price_from=0&price_to=1000&show_if_full=false&show_if_colocations=false"
 CHECK_INTERVAL = 300
